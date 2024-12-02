@@ -1,0 +1,47 @@
+name: Python CI/CD Pipeline for Streamlit
+
+on:
+  push:
+    branches:
+      - main        # Trigger on push to main branch (or any production branch)
+  pull_request:
+    branches:
+      - main        # Trigger on pull request to main branch (production branch)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python (Use version 3.8 or your preferred version)
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+
+      # Step 3: Install dependencies from requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 4: Run tests (If you have tests)
+      - name: Run tests
+        run: |
+          pytest  # If you have tests set up, this will run them
+
+      # Step 5: Deploy to Streamlit or your preferred platform
+      - name: Deploy Streamlit App
+        run: |
+          echo "Deploying Streamlit app"
+          # You can use a deployment command to a platform like Heroku or AWS, or deploy directly to Streamlit.
+          # Example (this depends on your specific deployment setup):
+          # streamlit run app.py --server.port=8501
+          # You may want to deploy to platforms like Heroku, AWS, or Streamlit sharing (with API keys or credentials).
+          
+          # Deploy to Streamlit sharing:
+          # streamlit run app.py --server.headless true --server.port 8501
